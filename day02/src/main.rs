@@ -50,8 +50,6 @@ fn main() {
     let result = solve_part2(input);
     println!("Part 2 solution: {}, time taken {:.2?}", result, now.elapsed());
 
-
-
 }
 
 
