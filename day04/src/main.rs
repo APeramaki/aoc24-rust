@@ -53,8 +53,61 @@ fn solve_part1(input: &str) -> u32 {
 }
 
 fn solve_part2(input: &str) -> u32 {
-    todo!();
+    let rows = input.lines().collect::<Vec<_>>();
+
+    let a_locations: Vec<_> = rows
+        .iter()
+        .enumerate()
+        .map(|(row_index, row)| {
+            row.match_indices('A')
+                .map(|loc| (row_index, loc.0))
+                .collect::<Vec<_>>()
+        })
+        .flat_map(|inner_vec| inner_vec.into_iter())
+        .collect();
+
+    a_locations
+        .iter()
+        .map(|location| {
+            if location.0 == 0 || location.1 == 0 {
+                return false;
+            }
+            let (nw, ne) = (
+                rows.get(location.0 + 1)
+                    .unwrap_or(&" ")
+                    .chars()
+                    .nth(location.1 + 1)
+                    .unwrap_or(' '),
+                rows.get(location.0 + 1)
+                    .unwrap_or(&" ")
+                    .chars()
+                    .nth(location.1 - 1)
+                    .unwrap_or(' '),
+            );
+
+            let (sw, se) = (
+                rows.get(location.0 - 1)
+                    .unwrap_or(&" ")
+                    .chars()
+                    .nth(location.1 + 1)
+                    .unwrap_or(' '),
+                rows.get(location.0 - 1)
+                    .unwrap_or(&" ")
+                    .chars()
+                    .nth(location.1 - 1)
+                    .unwrap_or(' '),
+            );
+            ['M', 'S'].iter().any(|l| *l == ne)
+                && ['M', 'S'].iter().any(|l| *l == nw)
+                && ['M', 'S'].iter().any(|l| *l == se)
+                && ['M', 'S'].iter().any(|l| *l == sw)
+                && ne != sw
+                && nw != se
+        })
+        .filter(|b| *b)
+        .count() as u32
 }
+// 1393 too low
 
 fn main() {
     use std::time::Instant;

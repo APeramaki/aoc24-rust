@@ -17,7 +17,7 @@ fn part1_num_of_xmas() {
 }
 
 #[test]
-fn part2() {
+fn part2_num_of_x_mas() {
   let example_input =
   "
   MMMSXXMASM
