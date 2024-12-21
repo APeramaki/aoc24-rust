@@ -64,5 +64,5 @@ fn part2() {
     75,97,47,61,53
     61,13,29
     97,13,75,29,47";
-  assert_eq!(solve_part2(example_input), 0);
+  assert_eq!(solve_part2(example_input), 123);
 }

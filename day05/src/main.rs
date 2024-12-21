@@ -1,4 +1,5 @@
-use std::collections::{HashMap, HashSet};
+use regex::Regex;
+use std::{collections::{HashMap, HashSet}, default};
 
 fn solve_part1(input: &str) -> u32 {
     let mut ordering_rules: HashMap<usize, HashSet<usize>> = HashMap::new();
@@ -6,12 +7,12 @@ fn solve_part1(input: &str) -> u32 {
     let regex_rules = Regex::new(r"[0-9]{2}").unwrap();
     for row in &mut rows {
         let mut numbers = regex_rules.find_iter(row);
-        
+
         match &numbers.next() {
             Some(x) => ordering_rules
                 .entry(x.as_str().parse::<usize>().unwrap())
-                                        .or_insert(HashSet::new())
-                                        .insert(numbers.next().unwrap().as_str().parse::<usize>().unwrap()),
+                .or_insert(HashSet::new())
+                .insert(numbers.next().unwrap().as_str().parse::<usize>().unwrap()),
             None => break,
         };
     }
@@ -22,12 +23,12 @@ fn solve_part1(input: &str) -> u32 {
             .map(|num| num.trim().parse::<usize>().unwrap())
             .collect();
         let order_right = !page_nums.iter().enumerate().any(|(index, num)| {
-                let binding = HashSet::new();
-                let page_ruleset = ordering_rules.get(&num).unwrap_or(&binding);
+            let binding = HashSet::new();
+            let page_ruleset = ordering_rules.get(&num).unwrap_or(&binding);
             page_nums[..index]
                 .iter()
                 .any(|previous| page_ruleset.contains(previous))
-            });
+        });
         match order_right {
             true => sum += page_nums.get((page_nums.len() - 1) / 2).unwrap_or(&0),
             false => {}
@@ -37,7 +38,47 @@ fn solve_part1(input: &str) -> u32 {
 }
 
 fn solve_part2(input: &str) -> u32 {
-    todo!();
+    let mut ordering_rules: HashMap<usize, HashSet<usize>> = HashMap::new();
+    let mut rows = input.lines();
+    let regex_rules = Regex::new(r"[0-9]{2}").unwrap();
+    for row in &mut rows {
+        let mut numbers = regex_rules.find_iter(row);
+
+        match &numbers.next() {
+            Some(x) => ordering_rules
+                .entry(x.as_str().parse::<usize>().unwrap())
+                .or_insert(HashSet::new())
+                .insert(numbers.next().unwrap().as_str().parse::<usize>().unwrap()),
+            None => break,
+        };
+    }
+    let mut sum: usize = 0;
+    for row in rows {
+        let mut page_nums: Vec<_> = row
+            .split(',')
+            .map(|num| num.trim().parse::<usize>().unwrap())
+            .collect();
+        let order_wrong = page_nums.iter().enumerate().any(|(index, num)| {
+            let binding = HashSet::new();
+            let page_ruleset = ordering_rules.get(&num).unwrap_or(&binding);
+            page_nums[..index]
+                .iter()
+                .any(|previous| page_ruleset.contains(previous))
+        });
+        if order_wrong {
+            let default = HashSet::new();
+            page_nums.sort_by(|s, b| {
+                if ordering_rules.get(s).unwrap_or(&default).contains(b){
+                    std::cmp::Ordering::Less
+                } else {
+                    std::cmp::Ordering::Greater
+                }
+            });
+            sum += page_nums.get((page_nums.len() - 1) / 2).unwrap_or(&0);
+        }
+        
+    }
+    sum as u32
 }
 
 fn main() {
@@ -61,7 +102,5 @@ fn main() {
     );
 }
 
-
 #[cfg(test)]
 mod tests;
-
