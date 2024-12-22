@@ -12,7 +12,7 @@ fn part1_num_of_xmas() {
 ........#.
 #.........
 ......#...";
-    assert_eq!(solve_part1(example_input), 18);
+    assert_eq!(solve_part1(example_input), 41);
 }
 
 #[test]
