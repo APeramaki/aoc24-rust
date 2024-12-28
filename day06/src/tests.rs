@@ -1,6 +1,6 @@
 use super::*;
 #[test]
-fn part1_num_of_xmas() {
+fn part1_checked_tiles() {
     let example_input =
 "....#.....
 .........#
@@ -16,7 +16,7 @@ fn part1_num_of_xmas() {
 }
 
 #[test]
-fn part2_num_of_x_mas() {
+fn part2_ways_to_get_guard_loop() {
   let example_input =
 "....#.....
 .........#
@@ -28,5 +28,5 @@ fn part2_num_of_x_mas() {
 ........#.
 #.........
 ......#...";
-  assert_eq!(solve_part2(example_input), 9);
+    assert_eq!(solve_part2(example_input), 6);
 }
