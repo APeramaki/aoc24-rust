@@ -1,5 +1,5 @@
 use regex::Regex;
-use std::{collections::{HashMap, HashSet}, default};
+use std::collections::{HashMap, HashSet};
 
 fn solve_part1(input: &str) -> u32 {
     let mut ordering_rules: HashMap<usize, HashSet<usize>> = HashMap::new();
