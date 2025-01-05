@@ -1,21 +1,28 @@
 mod calibration;
 use calibration::Calibration;
+use rayon::prelude::*;
 
 fn solve_part1(input: &str) -> u64 {
     let calibrations: Vec<Calibration> = input
         .lines()
-        .map(|line| Calibration::new(line))
+        .map(|line| Calibration::new(line, false))
         .collect();
     calibrations
-        .iter()
-        .map(|c| c.test_all())
-        .reduce(|acc, e| acc + e)
-        .unwrap()
+        .par_iter()
+        .filter_map(|c| c.test_all())
+        .sum()
     
 }
 
-fn solve_part2(input: &str) -> u32 {
-    todo!();
+fn solve_part2(input: &str) -> u64 {
+    let calibrations: Vec<Calibration> = input
+        .lines()
+        .map(|line| Calibration::new(line, true))
+        .collect();
+    calibrations
+        .par_iter()
+        .filter_map(|c| c.test_all())
+        .sum()
 }
 
 fn main() {

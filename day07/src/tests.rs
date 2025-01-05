@@ -27,5 +27,5 @@ fn part2() {
 21037: 9 7 18 13
 292: 11 6 16 20";
 
-    assert_eq!(solve_part2(example_input), 0);
+    assert_eq!(solve_part2(example_input), 11387);
 }
