@@ -10,7 +10,7 @@ fn main() {
     use std::time::Instant;
     let now = Instant::now();
 
-    let input = std::fs::read_to_string("inputs/day08.txt").expect("Failed to read input");
+    let input = std::fs::read_to_string("inputs/day09.txt").expect("Failed to read input");
     let result = solve_part1(&input);
     println!(
         "Part 1 solution: {}, time taken {:.2?}",
